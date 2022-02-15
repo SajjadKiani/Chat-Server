@@ -1,6 +1,8 @@
 class Red:
-    data = []
+    data = {}
 
     @staticmethod
-    def put(obj):
-        Red.data.append(obj)
+    def put(key,value):
+        previous_list = Red.data.get(key,[])
+        previous_list.append(value)
+        Red.data[key] = previous_list
