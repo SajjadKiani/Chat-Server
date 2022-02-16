@@ -21,9 +21,10 @@ class TokenAuthMiddleware(BaseMiddleware):
     async def __call__(self, scope, r, s, **kwargs):
         token_key = None
         try:
-            for header in scope['headers']:
-                if header[0] == b'authentication':
-                    token_key = header[1].decode().split()[-1]
+            params = scope['query_string'].decode().split("&")
+            for header in params:
+                if 'token' in header:
+                    token_key = header.split('=')[-1]
                     break
         except ValueError:
             token_key = None
