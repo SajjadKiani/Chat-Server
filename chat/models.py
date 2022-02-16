@@ -11,9 +11,16 @@ class User(AbstractUser):
 class Message(models.Model):
     text = models.CharField(max_length=500)
     date = models.DateTimeField(auto_now=True)
-
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='users')
     receiver = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.DO_NOTHING , related_name='receivers')
 
     def __str__(self):
         return self.sender.username + "'s Message"
+
+    def to_json(self):
+        return {
+            "text": self.text.__str__(),
+            "date": self.date.__str__(),
+            "sender": self.sender.__str__(),
+            "receiver": self.receiver.__str__(),
+        }
